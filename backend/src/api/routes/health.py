@@ -54,8 +54,9 @@ async def health_check(request: Request):
 
     return {
         "status": status,
-        "active_layers": 5 + (1 if classifier_loaded else 0),
+        "active_layers": len(pipeline.layers),
         "classifier_loaded": classifier_loaded,
+        "classifier_error": getattr(request.app.state.classifier, "_load_error", None) if hasattr(request.app.state, "classifier") else None,
         "classifier_latency_ms": classifier_latency,
         "db_connected": db_connected,
         "redis_connected": redis_connected,
