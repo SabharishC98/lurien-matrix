@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firewall Test</title>
+    <style>
+        body { font-family: sans-serif; max-width: 500px; margin: 2rem auto; }
+        div { margin-bottom: 1rem; }
+        input, textarea { width: 100%; padding: 0.5rem; margin-top: 0.25rem; }
+        button { padding: 0.5rem 1rem; cursor: pointer; }
+        #result { margin-top: 1rem; padding: 1rem; border: 1px solid #ccc; display: none; }
+        .safe { background: #e6ffe6; }
+        .blocked { background: #ffe6e6; }
+    </style>
+</head>
+<body>
+
+    <h2>Test Firewall</h2>
+
+    <div>
+        <label>API Key:</label>
+        <input type="password" id="apiKey">
+    </div>
+
+    <div>
+        <label>Prompt:</label>
+        <textarea id="prompt" rows="4"></textarea>
+    </div>
+
+    <button onclick="test()">Submit</button>
+
+    <div id="result">
+        <p><b>Status:</b> <span id="status"></span></p>
+        <p><b>Score:</b> <span id="score"></span></p>
+        <p><b>Type:</b> <span id="type"></span></p>
+        <p><b>Layer:</b> <span id="layer"></span></p>
+    </div>
+
+    <script>
+        async function test() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            document.getElementById('status').innerText = "Loading...";
+
+            const res = await fetch('https://imdrizzle-lurien-matrix.hf.space/v1/check', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': document.getElementById('apiKey').value
+                },
+                body: JSON.stringify({ prompt: document.getElementById('prompt').value })
+            });
+
+            const data = await res.json();
+            
+            resultDiv.className = data.safe ? 'safe' : 'blocked';
+            document.getElementById('status').innerText = data.safe ? 'SAFE' : 'BLOCKED';
+            document.getElementById('score').innerText = data.risk_score;
+            document.getElementById('type').innerText = data.attack_type || '-';
+            document.getElementById('layer').innerText = data.flagged_layer || '-';
+        }
+    </script>
+</body>
+</html>
