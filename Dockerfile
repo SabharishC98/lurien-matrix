@@ -26,6 +26,11 @@ COPY --chown=user . $HOME/app
 # Switch context to the active backend folder
 WORKDIR $HOME/app/backend
 
+# Set correct paths for models and data relative to backend folder
+ENV MODEL_PATH=../models/
+ENV FAISS_INDEX_PATH=../data/faiss/attack_index.faiss
+ENV FAISS_TEXTS_PATH=../data/faiss/attack_texts.json
+
 # Expose port
 EXPOSE 7860
 
