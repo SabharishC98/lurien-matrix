@@ -22,7 +22,7 @@ jobs:
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          git remote add space https://imDrizzle:$HF_TOKEN@huggingface.co/spaces/imDrizzle/lurien_matrix
+          git remote add space https://imDrizzle:$HF_TOKEN@huggingface.co/spaces/imDrizzle/lurien-matrix
           git fetch space main || true
           git merge space/main --allow-unrelated-histories -m "Merge HF models" || true
           git push space main
