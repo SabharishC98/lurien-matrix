@@ -89,6 +89,7 @@ class InjectionClassifier:
             self.tokenizer = AutoTokenizer.from_pretrained(model_dir)
             self.model = ORTModelForSequenceClassification.from_pretrained(
                 model_dir,
+                file_name="model_quantized.onnx",
                 provider="CPUExecutionProvider",
             )
 
