@@ -15,10 +15,16 @@ from pathlib import Path
 logger = logging.getLogger("llm_firewall.classifier")
 
 # Labels for the binary classification model
+# inference.py — update LABELS to match new model
 LABELS = [
     "safe",
-    "injection",
+    "role_override",
+    "goal_hijacking",
+    "context_poisoning",
+    "tool_manipulation",
+    "cascading_amplification",
 ]
+NUM_LABELS = 6
 
 LABEL_TO_IDX = {label: idx for idx, label in enumerate(LABELS)}
 
